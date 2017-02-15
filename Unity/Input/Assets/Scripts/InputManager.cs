@@ -639,6 +639,61 @@ public enum KeyboardKey
 
 public class InputManager : MonoBehaviour
 {
-    
+    private static InputManager _singleton;
+
+    public static InputManager Singleton
+    {
+        get
+        {
+            if (_singleton == null)
+            {
+                _singleton = GameObject.FindObjectOfType<InputManager>();
+            }
+
+            return _singleton;
+        }
+    }
+
+    public KeyCode[] canUseKeys = new KeyCode[]
+    {
+       KeyCode.Q,
+       KeyCode.W,
+       KeyCode.E,
+       KeyCode.R,
+       KeyCode.T,
+       KeyCode.Y,
+       KeyCode.U,
+       KeyCode.I,
+       KeyCode.O,
+       KeyCode.P,
+       KeyCode.A,
+       KeyCode.S,
+       KeyCode.D,
+       KeyCode.F,
+       KeyCode.G,
+       KeyCode.H,
+       KeyCode.J,
+       KeyCode.K,
+       KeyCode.L,
+       KeyCode.Z,
+       KeyCode.X,
+       KeyCode.C,
+       KeyCode.V,
+       KeyCode.B,
+       KeyCode.N,
+       KeyCode.M,
+       //
+       KeyCode.Backspace,
+       KeyCode.LeftAlt,
+       KeyCode.RightAlt,
+       KeyCode.LeftControl,
+       KeyCode.RightControl,
+       KeyCode.LeftShift,
+       KeyCode.RightShift,
+       //
+       KeyCode.Space,
+       KeyCode.Backspace,
+       //
+    };
 
 }

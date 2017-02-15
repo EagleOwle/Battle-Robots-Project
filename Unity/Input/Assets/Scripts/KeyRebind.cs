@@ -71,7 +71,7 @@ public class KeyRebind : MonoBehaviour
     {
         curEvent = Event.current;
 
-        if (curEvent.isKey && curEvent.keyCode != KeyCode.None)
+        if (curEvent.isKey && curEvent.type == EventType.KeyUp)
         {
             newKey = curEvent.keyCode;
             waitPressKey = false;
@@ -91,7 +91,6 @@ public class KeyRebind : MonoBehaviour
 
     private bool CheckNewKey(KeyCode key)
     {
-        /*
         foreach (KeyBinding keyBindings in GameObject.FindObjectsOfType<KeyBinding>())
         {
             if (keyBindings.useKeyKode == key && keyBindings != currentKeyBinding)
@@ -99,16 +98,14 @@ public class KeyRebind : MonoBehaviour
                 return false;
             }
         }
-        */
 
-        if (Array.IndexOf(keyboardKeyArray, key) != -1)
+        if (Array.IndexOf(InputManager.Singleton.canUseKeys, key) != -1)
         {
-            Debug.Log("exist " + Array.IndexOf(keyboardKeyArray, key));
             return true;
         }
         else
         {
-            Debug.Log("not exist " + Array.IndexOf(keyboardKeyArray, key));
+            Debug.Log("... key " + key + " is not supported");
             return false;
         }
     }
