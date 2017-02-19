@@ -20,104 +20,85 @@ public class KeyRebind : MonoBehaviour
         }
     }
 
-    public KeyBinding currentKeyBinding;
+    [Tooltip("ССылка на класс контролирующий нажатие кнопки")]
+    public GameInputKey currentKeyBinding;
+    [Tooltip("Обьект выводит сообщение о том, что кнопка уже используется")]
     public GameObject confirmChangesObj;
-
+    [Tooltip("Текущая кнопка, которую нажал пользователь")]
     private KeyCode newKey;
+    [Tooltip("Флаг включает проверку на нажатие кнопки пользователем")]
     private bool waitPressKey;
 
-    private Event curEvent;
-    private Array keyboardKeyArray;
-
-    //Debug
-    public int index;
-    //EndDebug
+    Event curEvent;
 
     private void OnEnable()
     {
         waitPressKey = true;
         confirmChangesObj.SetActive(false);
-
-        keyboardKeyArray = Enum.GetValues(typeof(KeyboardKey));
-
-        //Debug
-        index = 0;
-        //EndDebug
     }
-
-    //Debug
-    /*
-    private void Update()
-    {
-        if (index >= 0)
-        {
-            if (index < keyboardKeyArray.Length)
-            {
-                Debug.Log(keyboardKeyArray.GetValue(index));
-                index++;
-            }
-            else
-            {
-                Debug.Log("EndArray " + index);
-                index = -1;
-            }
-        }
-    }
-    */
-    //EndDebug
-
 
     private void OnGUI()
     {
         curEvent = Event.current;
 
-        if (curEvent.isKey && curEvent.type == EventType.KeyUp)
+        if (curEvent.isKey && curEvent.type == EventType.keyUp)
         {
             newKey = curEvent.keyCode;
             waitPressKey = false;
+            CheckNewKey(newKey);
+        }
+    }
 
-            if (CheckNewKey(newKey) == true)
+    private void CheckNewKey(KeyCode key)
+    {
+        //Если текущая кнопка входит в состав массива keyboardKeyArray
+        if (Array.IndexOf(InputManager.Singleton.keyboardKeyArray, key) == -1)
+        {
+            if (key == KeyCode.Escape)
             {
-                currentKeyBinding.SetNewKey(newKey);
-                confirmChangesObj.SetActive(false);
-                gameObject.SetActive(false);
+                CancelChange();
+                return;
             }
             else
             {
                 confirmChangesObj.SetActive(true);
+                return;
             }
-        }
-    }
-
-    private bool CheckNewKey(KeyCode key)
-    {
-        foreach (KeyBinding keyBindings in GameObject.FindObjectsOfType<KeyBinding>())
-        {
-            if (keyBindings.useKeyKode == key && keyBindings != currentKeyBinding)
-            {
-                return false;
-            }
-        }
-
-        if (Array.IndexOf(InputManager.Singleton.canUseKeys, key) != -1)
-        {
-            return true;
         }
         else
         {
-            Debug.Log("... key " + key + " is not supported");
-            return false;
+            //Проверяем все классы KeyBinding
+            foreach (GameInputKey keyBindings in GameObject.FindObjectsOfType<GameInputKey>())
+            {
+                //Если в проверяемом классе KeyBinding уже используется такая кнопка 
+                //и этот класс не является текущим  currentKeyBinding
+                if (keyBindings.keyKode == key && keyBindings != currentKeyBinding)
+                {
+                    confirmChangesObj.SetActive(true);
+                    return;
+                }
+            }
         }
+
+        SetNewKey();
+    }
+
+    private void SetNewKey()
+    {
+        currentKeyBinding.SetNewKey(newKey);
+        confirmChangesObj.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ConfirmChange()
     {
-        foreach (KeyBinding AllKey in GameObject.FindObjectsOfType<KeyBinding>())
+        //Проверяем все классы KeyBinding
+        foreach (GameInputKey AllKey in InputManager.Singleton.keyBinding)
         {
-            if (AllKey.useKeyKode == newKey)
+            if (AllKey.keyKode == newKey)//если кнопка в классе KeyBinding такая же, что и текущая назначенная
             {
-                AllKey.ClearKey();
-                currentKeyBinding.SetNewKey(newKey);
+                AllKey.SetNewKey();//Удаляем кнопку назначенную в KeyBinding
+                currentKeyBinding.SetNewKey(newKey);//В текущем KeyBinding назначаем новую кнопку
                 confirmChangesObj.SetActive(false);
                 gameObject.SetActive(false);
                 return;
@@ -127,7 +108,7 @@ public class KeyRebind : MonoBehaviour
 
     public void CancelChange()
     {
-        currentKeyBinding.SetKey();
+        currentKeyBinding.SetNewKey(currentKeyBinding.keyKode);
         confirmChangesObj.SetActive(false);
         gameObject.SetActive(false);
     }
