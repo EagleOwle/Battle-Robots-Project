@@ -19,7 +19,8 @@ public class KeyRebind : MonoBehaviour
             return _singleton;
         }
     }
-
+    [Tooltip("На что реагирует данная кнопка")]
+    public KeyStatus KeyStatus;
     [Tooltip("ССылка на класс контролирующий нажатие кнопки")]
     public GameInputKey currentKeyBinding;
     [Tooltip("Обьект выводит сообщение о том, что кнопка уже используется")]
@@ -39,21 +40,58 @@ public class KeyRebind : MonoBehaviour
 
     private void OnGUI()
     {
-        curEvent = Event.current;
-
-        if (curEvent.isKey && curEvent.type == EventType.keyUp)
+        if (waitPressKey == true)
         {
-            newKey = curEvent.keyCode;
-            waitPressKey = false;
-            CheckNewKey(newKey);
+            curEvent = Event.current;
+
+            if (curEvent.isKey)
+            {
+                //Debug.Log("isKey");
+
+                if (curEvent.type == EventType.keyUp)
+                {
+                    newKey = curEvent.keyCode;
+                    waitPressKey = false;
+                    CheckNewKey(newKey);
+                }
+            }
+
+            if (curEvent.isMouse)
+            {
+                if (curEvent.type == EventType.MouseUp)
+                {
+                    if (curEvent.button == 0)
+                    {
+                        newKey = KeyCode.Mouse0;
+                    }
+
+                    if (curEvent.button == 1)
+                    {
+                        newKey = KeyCode.Mouse1;
+                    }
+
+                    if (curEvent.button == 2)
+                    {
+                        newKey = KeyCode.Mouse2;
+                    }
+
+                    waitPressKey = false;
+                    CheckNewKey(newKey);
+
+                }
+            }
         }
     }
 
     private void CheckNewKey(KeyCode key)
     {
+        //Debug.Log(key + " " + (int)key);
+
         //Если текущая кнопка входит в состав массива keyboardKeyArray
         if (Array.IndexOf(InputManager.Singleton.keyboardKeyArray, key) == -1)
         {
+            //Debug.Log("keyboardKeyArray= " + Array.IndexOf(InputManager.Singleton.keyboardKeyArray, key));
+
             if (key == KeyCode.Escape)
             {
                 CancelChange();
@@ -67,6 +105,8 @@ public class KeyRebind : MonoBehaviour
         }
         else
         {
+            //Debug.Log("keyboardKeyArray= " + Array.IndexOf(InputManager.Singleton.keyboardKeyArray, key));
+
             //Проверяем все классы KeyBinding
             foreach (GameInputKey keyBindings in GameObject.FindObjectsOfType<GameInputKey>())
             {
@@ -115,6 +155,8 @@ public class KeyRebind : MonoBehaviour
 
     public void AddChange()
     {
+        //Debug.Log("AddChange()");
+
         currentKeyBinding.SetNewKey(newKey);
         confirmChangesObj.SetActive(false);
         gameObject.SetActive(false);

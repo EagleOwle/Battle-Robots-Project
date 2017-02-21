@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameInputKey : MonoBehaviour
 {
+    [Header("Состояние, в котором обрабатывается нажатие")]
+    public KeyStatus keyStatus;
     [Header("Что выполняет данная кнопка")]
     public GameKey gameKey;
     [Header("Текущая назначенная кнопка")]
@@ -15,11 +17,17 @@ public class GameInputKey : MonoBehaviour
     [Header("Компонент Text, имя, что выполняет данная кнопка")]
     public Text targetKeyText;
 
+    public bool changedKey = true;
+
     private void OnEnable()
     {
         KeyRebind.Singleton.gameObject.SetActive(false);
-        targetKeyText.text = gameKey.ToString();
-        SetNewKey(keyKode);
+
+        if (changedKey == true)
+        {
+            targetKeyText.text = gameKey.ToString();
+            SetNewKey(keyKode);
+        }
     }
 
     public void WaitPressKey(Text text)
@@ -32,10 +40,16 @@ public class GameInputKey : MonoBehaviour
     public void SetNewKey(KeyCode newKey = KeyCode.None)
     {
         keyKode = newKey;
-        nameCurrentKey.text = keyKode.ToString();
+
+        if (changedKey == true)
+        {
+            nameCurrentKey.text = keyKode.ToString();
+        }
+        
         InputManager.Singleton.CheckUsedKey();
     }
 
+    /*
     private void CheckForUse()
     {
         foreach (GameInputKey keyBindings in InputManager.Singleton.keyBinding)
@@ -53,6 +67,6 @@ public class GameInputKey : MonoBehaviour
 
         nameCurrentKey.color = Color.black;
     }
-
+    */
     
 }

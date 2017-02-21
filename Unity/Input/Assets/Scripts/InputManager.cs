@@ -12,6 +12,23 @@ public enum GameKey
     Up,
     Down,
     Action,
+    Shoot,
+    Pricel,
+    None,
+    Cancel,
+}
+
+public enum KeyStatus
+{
+    On,
+    Up,
+    Down,
+}
+
+public enum SpetialKey
+{
+    Cancel,
+    Enter,
     None,
 }
 
@@ -76,6 +93,10 @@ public class InputManager : MonoBehaviour
         KeyCode.LeftArrow,
         KeyCode.RightArrow,
         KeyCode.Backspace,
+        KeyCode.Mouse0,
+        KeyCode.Mouse1,
+        KeyCode.Mouse2,
+        KeyCode.None,
     };
 
     public List<GameInputKey> keyBinding;
@@ -85,15 +106,18 @@ public class InputManager : MonoBehaviour
     {
         for (int i = 0; i < keyBinding.Count; i++)
         {
-            keyBinding[i].nameCurrentKey.color = Color.black;
-
-            foreach (GameInputKey keyBindings in keyBinding)
+            if (keyBinding[i].changedKey == true)
             {
-                if (keyBindings != keyBinding[i])
+                keyBinding[i].nameCurrentKey.color = Color.black;
+
+                foreach (GameInputKey keyBindings in keyBinding)
                 {
-                    if (keyBindings.keyKode == keyBinding[i].keyKode)
+                    if (keyBindings != keyBinding[i])
                     {
-                        keyBinding[i].nameCurrentKey.color = Color.red;
+                        if (keyBindings.keyKode == keyBinding[i].keyKode)
+                        {
+                            keyBinding[i].nameCurrentKey.color = Color.red;
+                        }
                     }
                 }
             }
@@ -115,9 +139,28 @@ public class InputManager : MonoBehaviour
     {
         foreach (GameInputKey inputKey in keyBinding)
         {
-            if (Input.GetKey(inputKey.keyKode) == true)
+            if (inputKey.keyStatus == KeyStatus.On)
             {
-                Delegate_KeyPress(inputKey.gameKey);
+                if (Input.GetKey(inputKey.keyKode) == true)
+                {
+                    Delegate_KeyPress(inputKey.gameKey);
+                }
+            }
+
+            if (inputKey.keyStatus == KeyStatus.Down)
+            {
+                if (Input.GetKeyDown(inputKey.keyKode) == true)
+                {
+                    Delegate_KeyPress(inputKey.gameKey);
+                }
+            }
+
+            if (inputKey.keyStatus == KeyStatus.Up)
+            {
+                if (Input.GetKeyUp(inputKey.keyKode) == true)
+                {
+                    Delegate_KeyPress(inputKey.gameKey);
+                }
             }
         }
     }
