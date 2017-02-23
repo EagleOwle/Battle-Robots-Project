@@ -24,14 +24,14 @@ public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPo
 
     private void OnEnable()
     {
-        nameWindowText.text = message;
-        image.color = UI_Controller.Instance.colorArray[0];
+        image.color = UI_Controller.Singleton.colorArray[0];
+        SetNewMessage(message);
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("OnPointerEnter");
-        UI_Controller.Instance.PlaySound((UiSoundEffect.Enter));
+        UI_Controller.Singleton.PlaySound((UiSoundEffect.Enter));
         EventSystem.current.SetSelectedGameObject(gameObject);
         SelectEffect();
     }
@@ -44,7 +44,7 @@ public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPo
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        UI_Controller.Instance.PlaySound((UiSoundEffect.Up));
+        UI_Controller.Singleton.PlaySound((UiSoundEffect.Up));
         //Debug.Log("OnPointerUp");
     }
 
@@ -86,5 +86,12 @@ public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPo
     public virtual void CrossfadeEffect()
     {
         //Debug.Log("CrossfadeEffect " + name);
+    }
+
+    public virtual void SetNewMessage(string newMessage)
+    {
+        message = newMessage;
+        nameWindowText.text = newMessage;
+            
     }
 }

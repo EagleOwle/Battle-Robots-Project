@@ -20,9 +20,9 @@ public class UI_ElementSlider : UI_ElementBasys
     private void OnEnable()
     {
         nameWindowText.text = message;
-        image.color = UI_Controller.Instance.colorArray[0];
-        imageFill.color = UI_Controller.Instance.colorArray[0];
-        imageHandle.color = UI_Controller.Instance.colorArray[0];
+        image.color = UI_Controller.Singleton.colorArray[0];
+        imageFill.color = UI_Controller.Singleton.colorArray[0];
+        imageHandle.color = UI_Controller.Singleton.colorArray[0];
 
         if (showValue == true)
         {
@@ -43,15 +43,15 @@ public class UI_ElementSlider : UI_ElementBasys
         {
             if (fadeDown == true)
             {
-                image.color = Color.Lerp(UI_Controller.Instance.colorArray[0], UI_Controller.Instance.colorArray[1], t);
-                imageFill.color = Color.Lerp(UI_Controller.Instance.colorArray[0], UI_Controller.Instance.colorArray[1], t);
-                imageHandle.color = Color.Lerp(UI_Controller.Instance.colorArray[0], UI_Controller.Instance.colorArray[1], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
+                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
+                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
             }
             else
             {
-                image.color = Color.Lerp(UI_Controller.Instance.colorArray[1], UI_Controller.Instance.colorArray[0], t);
-                imageFill.color = Color.Lerp(UI_Controller.Instance.colorArray[1], UI_Controller.Instance.colorArray[0], t);
-                imageHandle.color = Color.Lerp(UI_Controller.Instance.colorArray[1], UI_Controller.Instance.colorArray[0], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
+                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
+                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
             }
 
             t += fadeSpeed * Time.deltaTime;
@@ -68,6 +68,6 @@ public class UI_ElementSlider : UI_ElementBasys
         //Debug.Log("OnPointerExit");
         EventSystem.current.SetSelectedGameObject(null);
         StopAllCoroutines();
-        image.color = UI_Controller.Instance.colorArray[0];
+        image.color = UI_Controller.Singleton.colorArray[0];
     }
 }

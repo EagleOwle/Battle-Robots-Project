@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UI_ElementButton : UI_ElementBasys
 {
+
     override public void CrossfadeEffect()
     {
         //Debug.Log("CrossfadeEffect " + name);
@@ -14,11 +15,11 @@ public class UI_ElementButton : UI_ElementBasys
         {
             if (fadeDown == true)
             {
-                image.color = Color.Lerp(UI_Controller.Instance.colorArray[0], UI_Controller.Instance.colorArray[1], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
             }
             else
             {
-                image.color = Color.Lerp(UI_Controller.Instance.colorArray[1], UI_Controller.Instance.colorArray[0], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
             }
 
             t += fadeSpeed * Time.deltaTime;
@@ -35,7 +36,7 @@ public class UI_ElementButton : UI_ElementBasys
         //Debug.Log("OnPointerExit");
         EventSystem.current.SetSelectedGameObject(null);
         StopAllCoroutines();
-        image.color = UI_Controller.Instance.colorArray[0];
+        image.color = UI_Controller.Singleton.colorArray[0];
     }
 
 }

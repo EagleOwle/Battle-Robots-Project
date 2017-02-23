@@ -2,27 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_MainMenu : MonoBehaviour
+public class UI_MainMenu : UI_MenuControllerAbstract
 {
-    public UI_ElementButton startGameElement;
-
-    public void OnEnable()
+    private void Start()
     {
-        if (UI_Controller.Instance.inGame == false)
-        {
-            startGameElement.message = "Start Test";
-        }
-        else
-        {
-            {
-                startGameElement.message = "Return";
-            }
-        }
+        ChangeMenu(1);
     }
 
-    public void StartTest()
+    public void ExitAplication()
     {
-        UI_Controller.Instance.inGame = true;
-        UI_Controller.Instance.ChangeState(1);//InGame
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+         Application.OpenURL(webplayerQuitURL);
+#else
+         Application.Quit();
+#endif
     }
 }

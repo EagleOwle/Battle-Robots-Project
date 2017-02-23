@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum MenuState
+public enum MainMenuState
 {
     MainMenu,
     InGameMenu,
@@ -11,8 +11,11 @@ public enum MenuState
     ActionMenu,
     GraphicMenu,
     AudioMenu,
-    inputMenu,
+    InputMenu,
+    KeyBindingMenu,
+    MouseBindingMenu,
     Exit,
+    
 }
 
 public enum UiSoundEffect
@@ -24,14 +27,20 @@ public enum UiSoundEffect
 
 public class UI_Controller : MonoBehaviour
 {
-    public static UI_Controller Instance { get; private set; }
+    private static UI_Controller _singleton;
 
-    [Header("Состояние меню")]
-    public  MenuState menuState;
-    [Tooltip("Тукущее состояние меню")]
-    private MenuState currentMenuState;
-    [Header("Список элементов меню")]
-    public Transform[] menuArray;
+    public static UI_Controller Singleton
+    {
+        get
+        {
+            if (_singleton == null)
+            {
+                _singleton = GameObject.FindObjectOfType<UI_Controller>();
+            }
+
+            return _singleton;
+        }
+    }
 
     [Header("Цвета меню")]
     [Tooltip("Массив 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm")]
@@ -40,63 +49,30 @@ public class UI_Controller : MonoBehaviour
     [Header("Звуки меню")]
     public AudioClip[] ui_sound;
 
-    [Tooltip("Текущее меню")]
-    private Transform currentMenu;
-
-    [Tooltip("Текущее меню")]
-    public bool inGame = false;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     private void Start()
     {
         ChangeState(0);
+        //InputManager.Singleton.Delegate_KeyPress += GetKeyPress;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        GetEscButton();
-        //Debug
-        ChangeState(-1);
-        //EndDebug
-        
+        //InputManager.Singleton.Delegate_KeyPress -= GetKeyPress;
     }
 
-    private void  GetEscButton()
+    public void GetKeyPress(GameKey inputKey)
     {
-        if (Input.GetButtonUp("Cancel"))
+        if (inputKey == GameKey.Cancel)
         {
-            UI_Controller.Instance.ChangeState(0);//MainMenu
+            UI_Controller.Singleton.ChangeState(0);//MainMenu
         }
     }
 
     public void ChangeState(int nextState = 0)
     {
-        if (nextState == -1)
-        {
-            if (currentMenuState == menuState)
-            {
-                return;
-            }
-        }
-        else
-        {
-            menuState = (MenuState)nextState;
-            currentMenuState = menuState;
-        }
-
-        ChangeMenu((int)currentMenuState);
-
-        //Выход из приложения
-        if (currentMenuState == MenuState.Exit)
-        {
-            QuitApplication();
-        }
-
-        if (currentMenuState == MenuState.InGameMenu)
+        
+        /*
+        if (currentMenuState == MainMenuState.InGameMenu)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -106,32 +82,17 @@ public class UI_Controller : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+        */
     }
 
     public void ShowDebugMessage(string message)
     {
-        //UI_DebugMessage.Instance.message = message;
         UI_DebugMessage.Instance.ShowNewMessage(message);
     }
 
     public void PlaySound(UiSoundEffect clip)
     {
         GetComponent<AudioSource>().PlayOneShot(ui_sound[(int)clip]);
-    }
-
-    void ChangeMenu(int n)
-    {
-        for (int i=0; i< menuArray.Length; i++ )
-        {
-            if (n == i)
-            {
-                menuArray[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                menuArray[i].gameObject.SetActive(false);
-            }
-        } 
     }
 
     void QuitApplication()
