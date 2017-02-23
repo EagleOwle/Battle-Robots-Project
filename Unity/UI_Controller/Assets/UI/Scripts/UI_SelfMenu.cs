@@ -25,7 +25,9 @@ public class UI_SelfMenu : MonoBehaviour
     {
         if (inputKey == GameKey.Cancel)
         {
-            menuController.ChangeMenu(menuController.defaultMenuIndex);
+            //menuController.ChangeMenu(menuController.defaultMenuIndex);
+            //menuController.ChangeMenu(0);
+            menuController.CancelKey();
         }
     }
 

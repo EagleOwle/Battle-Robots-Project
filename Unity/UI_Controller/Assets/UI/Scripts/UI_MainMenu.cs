@@ -6,7 +6,12 @@ public class UI_MainMenu : UI_MenuControllerAbstract
 {
     private void Start()
     {
-        ChangeMenu(1);
+        ChangeMenu(0);
+    }
+
+    public override void CancelKey()
+    {
+        ChangeMenu(3);
     }
 
     public void ExitAplication()

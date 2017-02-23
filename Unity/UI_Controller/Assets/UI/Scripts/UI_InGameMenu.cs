@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class UI_InGameMenu : UI_MenuControllerAbstract
 {
+    public override void CancelKey()
+    {
+        ChangeMenu(0);
+    }
 
 }

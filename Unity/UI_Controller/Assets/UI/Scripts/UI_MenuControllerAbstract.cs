@@ -6,8 +6,8 @@ public abstract class UI_MenuControllerAbstract : MonoBehaviour
 {
     [Header("Список элементов меню")]
     public Transform[] menuArray;
-    [Header("Индекс начального меню")]
-    public int defaultMenuIndex;
+   // [Header("Индекс начального меню")]
+    //public int defaultMenuIndex;
 
     virtual public void ChangeMenu(int n = 0)
     {
@@ -26,9 +26,14 @@ public abstract class UI_MenuControllerAbstract : MonoBehaviour
         }
     }
 
+    public virtual void CancelKey()
+    {
+
+    }
+
     private void OnEnable()
     {
-        ChangeMenu(defaultMenuIndex);
+        ChangeMenu(0);
     }
     
 }

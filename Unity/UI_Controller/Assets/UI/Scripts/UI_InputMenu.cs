@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class UI_InputMenu : UI_MenuControllerAbstract
 {
-
+    public override void CancelKey()
+    {
+        ChangeMenu(0);
+    }
 }
