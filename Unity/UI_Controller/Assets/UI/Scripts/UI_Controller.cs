@@ -42,52 +42,16 @@ public class UI_Controller : MonoBehaviour
         }
     }
 
-    [Header("Цвета меню")]
-    [Tooltip("Массив 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm")]
+    [Header("Color menu")]
+    [Tooltip("Array 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm")]
     public Color[] colorArray;
 
-    [Header("Звуки меню")]
+    [Header("Sound menu")]
     public AudioClip[] ui_sound;
-
-    private void Start()
-    {
-        ChangeState(0);
-        //InputManager.Singleton.Delegate_KeyPress += GetKeyPress;
-    }
-
-    private void OnDestroy()
-    {
-        //InputManager.Singleton.Delegate_KeyPress -= GetKeyPress;
-    }
-
-    public void GetKeyPress(GameKey inputKey)
-    {
-        if (inputKey == GameKey.Cancel)
-        {
-            UI_Controller.Singleton.ChangeState(0);//MainMenu
-        }
-    }
-
-    public void ChangeState(int nextState = 0)
-    {
-        
-        /*
-        if (currentMenuState == MainMenuState.InGameMenu)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        */
-    }
 
     public void ShowDebugMessage(string message)
     {
-        UI_DebugMessage.Instance.ShowNewMessage(message);
+        UI_DebugMessage.Singleton.ShowNewMessage(message);
     }
 
     public void PlaySound(UiSoundEffect clip)
@@ -95,7 +59,7 @@ public class UI_Controller : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(ui_sound[(int)clip]);
     }
 
-    void QuitApplication()
+    public void QuitApplication()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

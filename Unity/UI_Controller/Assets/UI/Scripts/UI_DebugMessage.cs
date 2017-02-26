@@ -5,17 +5,36 @@ using UnityEngine.UI;
 
 public class UI_DebugMessage : MonoBehaviour
 {
-    public static UI_DebugMessage Instance { get; private set; }
+    private static UI_DebugMessage _singleton;
+
+    public static UI_DebugMessage Singleton
+    {
+        get
+        {
+            if (_singleton == null)
+            {
+                _singleton = GameObject.FindObjectOfType<UI_DebugMessage>();
+            }
+
+            return _singleton;
+        }
+    }
+
+    [Header("New message")]
+    [Tooltip("Set new message")]
     public string message;
+    [Header("Color for color crossfade")]
+    [Tooltip("Set color for crossfade")]
     public Color[] colorArray;
-    private Text text;
-    public float waitTime = 0;
+
+    [Tooltip("Wait time for hide new message")]
+    public float waitTime = 1;
+
+    [SerializeField] Text text;   
     private float t;
 
     private void Start()
     {
-        Instance = this;
-        text = GetComponent<Text>();
         ShowNewMessage("");
     }
 

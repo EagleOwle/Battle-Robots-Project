@@ -6,20 +6,19 @@ using UnityEngine.EventSystems;
 
 public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISubmitHandler, ISelectHandler
 {
-    [Header("Текущее id элемента")]
-    public int id;
-
-    [Header("Название элемента")]
+    [Header("Name element")]
     public string message;
 
-    [Header("Компонент Текст названия")]
+    [Header("Text name element")]
     public Text nameWindowText;
 
-    [Header("Компонент Image")]
+    [Header("Image element")]
     public Image image;
 
-    protected float fadeSpeed = 1.5f;
-    protected float t;
+    [Header("Speed fade process")]
+    public float fadeSpeed = 1.5f;
+
+    protected float time;
     protected bool fadeDown = true;
 
     private void OnEnable()

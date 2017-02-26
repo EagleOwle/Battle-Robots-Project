@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class UI_SelfMenu : MonoBehaviour
 {
-    public UI_MenuControllerAbstract menuController;
+    public UI_MenuChanger menuChanger;
+
+    public int GoBackIndex;
 
     private void OnEnable()
     {
@@ -25,9 +27,7 @@ public class UI_SelfMenu : MonoBehaviour
     {
         if (inputKey == GameKey.Cancel)
         {
-            //menuController.ChangeMenu(menuController.defaultMenuIndex);
-            //menuController.ChangeMenu(0);
-            menuController.CancelKey();
+            menuChanger.KeyCancel(GoBackIndex);
         }
     }
 

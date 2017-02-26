@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UI_MenuControllerAbstract : MonoBehaviour
+public class UI_MenuChanger : MonoBehaviour
 {
-    [Header("Список элементов меню")]
+    [Header("Menu elements")]
+    [Tooltip ("Set element menu")]
     public Transform[] menuArray;
-   // [Header("Индекс начального меню")]
-    //public int defaultMenuIndex;
 
-    virtual public void ChangeMenu(int n = 0)
+    [Header("Menu by Cancel key")]
+    [Tooltip("Eneble element perent menu by this value")]
+    public int GoBackValue = 0;
+
+    public void ChangeMenu(int n = 0)
     {
-        //Debug.Log(name + "  ChangeMenu= " + n);
-
         for (int i = 0; i < menuArray.Length; i++)
         {
             if (n == i)
             {
+                UI_DebugMessage.Singleton.ShowNewMessage("New Menu   " + menuArray[i].transform.parent.name);
                 menuArray[i].gameObject.SetActive(true);
             }
             else
@@ -26,14 +28,14 @@ public abstract class UI_MenuControllerAbstract : MonoBehaviour
         }
     }
 
-    public virtual void CancelKey()
+    public void KeyCancel(int index = 0)
     {
-
+        ChangeMenu(index);
     }
 
     private void OnEnable()
     {
         ChangeMenu(0);
     }
-    
+
 }

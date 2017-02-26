@@ -39,26 +39,26 @@ public class UI_ElementSlider : UI_ElementBasys
     {
         //Debug.Log("CrossfadeEffect " + name);
 
-        if (t <= 1)
+        if (time <= 1)
         {
             if (fadeDown == true)
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
-                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
-                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
+                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
+                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
             }
             else
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
-                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
-                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], t);
+                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
+                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
+                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
             }
 
-            t += fadeSpeed * Time.deltaTime;
+            time += fadeSpeed * Time.deltaTime;
         }
         else
         {
-            t = 0;
+            time = 0;
             fadeDown = !fadeDown;
         }
     }
