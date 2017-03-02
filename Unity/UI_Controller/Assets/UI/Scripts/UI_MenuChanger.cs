@@ -8,17 +8,23 @@ public class UI_MenuChanger : MonoBehaviour
     [Tooltip ("Set element menu")]
     public Transform[] menuArray;
 
-    [Header("Menu by Cancel key")]
-    [Tooltip("Eneble element perent menu by this value")]
-    public int GoBackValue = 0;
+    [Header("Eneble menu")]
+    [Tooltip("Enable Menu by index if call OnEnable()")]
+    public int menuIndex = 0;
 
     public void ChangeMenu(int n = 0)
     {
+        if (menuArray.Length <= n)
+        {
+            UI_DebugMessage.Singleton.ShowNewMessage("No this value menu", 2);
+            Debug.Log("No this value menu " + "Change menu= " + n + " menuArray.Length= " + menuArray.Length);
+            return;
+        }
+
         for (int i = 0; i < menuArray.Length; i++)
         {
             if (n == i)
             {
-                UI_DebugMessage.Singleton.ShowNewMessage("New Menu   " + menuArray[i].transform.parent.name);
                 menuArray[i].gameObject.SetActive(true);
             }
             else
@@ -35,7 +41,7 @@ public class UI_MenuChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        ChangeMenu(0);
+        ChangeMenu(menuIndex);
     }
 
 }

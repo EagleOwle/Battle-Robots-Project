@@ -6,14 +6,14 @@ public class UI_ResolutionConfig : MonoBehaviour
 {
     public Dropdown resDropdown; // выпадающая менюшка
     public Text currentResolution;//Текущее разрешение экрана
-    private Resolution[] resolutionsList;//Возможные разрешения экрана 
+    private Resolution[] resolutionsArray;//Возможные разрешения экрана 
     public int minHeight = 480; // фильтр разрешения экрана по высоте
     private int resolutionsList_id;
     public Toggle fullscreenToggle; // переключатель полноэкранный/оконный режим
 
     public void OnEnable()
     {
-        resolutionsList = Screen.resolutions;
+        resolutionsArray = Screen.resolutions;
         ReBuildResolutionsList();
         SetDropdownMenu();
     }
@@ -22,10 +22,10 @@ public class UI_ResolutionConfig : MonoBehaviour
     {
         resDropdown.options = new System.Collections.Generic.List<Dropdown.OptionData>();
 
-        for (int i = 0; i < resolutionsList.Length; i++)
+        for (int i = 0; i < resolutionsArray.Length; i++)
         {
             Dropdown.OptionData option = new Dropdown.OptionData();
-            option.text = resolutionsList[i].width + " x " + resolutionsList[i].height;
+            option.text = resolutionsArray[i].width + " x " + resolutionsArray[i].height;
             resDropdown.options.Add(option);
         }
 
@@ -44,21 +44,21 @@ public class UI_ResolutionConfig : MonoBehaviour
     void ApplyResolution()
     {
         resolutionsList_id = resDropdown.value;
-        Screen.SetResolution(resolutionsList[resolutionsList_id].width, resolutionsList[resolutionsList_id].height, fullscreenToggle.isOn);
-        currentResolution.text = resolutionsList[resolutionsList_id].width + " x " + resolutionsList[resolutionsList_id].height;
+        Screen.SetResolution(resolutionsArray[resolutionsList_id].width, resolutionsArray[resolutionsList_id].height, fullscreenToggle.isOn);
+        currentResolution.text = resolutionsArray[resolutionsList_id].width + " x " + resolutionsArray[resolutionsList_id].height;
     }
 
     // фильтр разрешения экрана по высоте
     void ReBuildResolutionsList()
     {
         int x = 0;
-        foreach (Resolution element in resolutionsList)
+        foreach (Resolution element in resolutionsArray)
         {
             if (element.height >= minHeight) x++;
         }
         Resolution[] pureArray = new Resolution[x];
         x = 0;
-        foreach (Resolution element in resolutionsList)
+        foreach (Resolution element in resolutionsArray)
         {
             if (element.height >= minHeight)
             {
@@ -66,10 +66,10 @@ public class UI_ResolutionConfig : MonoBehaviour
                 x++;
             }
         }
-        resolutionsList = new Resolution[pureArray.Length];
-        for (int i = 0; i < resolutionsList.Length; i++)
+        resolutionsArray = new Resolution[pureArray.Length];
+        for (int i = 0; i < resolutionsArray.Length; i++)
         {
-            resolutionsList[i] = pureArray[i];
+            resolutionsArray[i] = pureArray[i];
         }
     }
 }

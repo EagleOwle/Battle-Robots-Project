@@ -2,22 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum MainMenuState
-{
-    MainMenu,
-    InGameMenu,
-    PreferenceMenu,
-    ActionMenu,
-    GraphicMenu,
-    AudioMenu,
-    InputMenu,
-    KeyBindingMenu,
-    MouseBindingMenu,
-    Exit,
-    
-}
-
 public enum UiSoundEffect
 {
     Enter,
@@ -43,7 +27,7 @@ public class UI_Controller : MonoBehaviour
     }
 
     [Header("Color menu")]
-    [Tooltip("Array 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm")]
+    [Tooltip("Array 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm, 5=text")]
     public Color[] colorArray;
 
     [Header("Sound menu")]
@@ -69,4 +53,5 @@ public class UI_Controller : MonoBehaviour
          Application.Quit();
 #endif
     }
+
 }

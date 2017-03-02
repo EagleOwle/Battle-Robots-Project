@@ -78,15 +78,15 @@ public class GameController : MonoBehaviour
         //EndDebug
     }
 
-
     void InputControl()
     {
-        keyDirection = Vector3.zero;
-        keyDirection += Vector3.forward * Input.GetAxis("Front");
-        keyDirection += Vector3.right * Input.GetAxis("Side");
-        keyDirection += Vector3.up * Input.GetAxis("Vertical");
-        KeyAxisFire1();//Левая кнопка мыши
-        KeyAxisFire2();//Правая кнопка мыши
+        
+            keyDirection = Vector3.zero;
+            keyDirection += Vector3.forward * Input.GetAxis("Front");
+            keyDirection += Vector3.right * Input.GetAxis("Side");
+            keyDirection += Vector3.up * Input.GetAxis("Vertical");
+            KeyAxisFire1();//Левая кнопка мыши
+            KeyAxisFire2();//Правая кнопка мыши
     }
 
     void KeyAxisFire1()
@@ -131,4 +131,8 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void LoadLevel(int level)
+    {
+        Application.LoadLevel(level);
+    }
 }

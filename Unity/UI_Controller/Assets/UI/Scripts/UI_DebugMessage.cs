@@ -38,8 +38,9 @@ public class UI_DebugMessage : MonoBehaviour
         ShowNewMessage("");
     }
 
-    public void ShowNewMessage(string message)
+    public void ShowNewMessage(string message, int newWaitTime = 1)
     {
+        waitTime = newWaitTime;
         text.text = message;
         text.color = colorArray[0];
         t = 0;

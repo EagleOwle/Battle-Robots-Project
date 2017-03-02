@@ -7,23 +7,36 @@ public class UI_ElementDropdown : UI_ElementBasys
 {
     public Dropdown dropdown;
 
-    [Header("Компонент Image")]
+    [Header("Компонент Dropdown")]
+    public Image imageDropdown;
     public Image imageViewport;
-    public Image imageScrollRectFild;
+    public Image imageTemplate;
     public Image imageItemBackground;
-    public Image imageItemCheckmark;
-
-    public Image imageScrollbarBackground;
+    public Image imageItemCheckmark;   
+    public Image imageScrollbar;
     public Image imageScrollbarHandle;
 
     public Text textItemLabel;
-    
+    public Text textLabel;
+
+
+
 
 
     private void OnEnable()
     {
-        image.color = UI_Controller.Singleton.colorArray[0];
+        if (image != null)
+        {
+            image.color = UI_Controller.Singleton.colorArray[0];
+        }
+
         SetNewMessage(message);
         imageViewport.color = UI_Controller.Singleton.colorArray[0];
+        imageItemCheckmark.color = UI_Controller.Singleton.colorArray[0];
+        imageTemplate.color = UI_Controller.Singleton.colorArray[0];
+        textItemLabel.color = UI_Controller.Singleton.colorArray[5];
+        textLabel.color = UI_Controller.Singleton.colorArray[5];
+        imageDropdown.color = UI_Controller.Singleton.colorArray[0];
+        imageScrollbarHandle.color = UI_Controller.Singleton.colorArray[0];
     }
 }

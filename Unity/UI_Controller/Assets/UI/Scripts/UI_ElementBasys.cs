@@ -23,7 +23,7 @@ public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPo
 
     private void OnEnable()
     {
-        image.color = UI_Controller.Singleton.colorArray[0];
+        if (image != null) { image.color = UI_Controller.Singleton.colorArray[0]; }
         SetNewMessage(message);
     }
 
@@ -90,7 +90,9 @@ public abstract class UI_ElementBasys : MonoBehaviour, IPointerEnterHandler, IPo
     public virtual void SetNewMessage(string newMessage)
     {
         message = newMessage;
-        nameWindowText.text = newMessage;
-            
+        if (nameWindowText != null)
+        {
+            nameWindowText.text = newMessage;
+        }
     }
 }
