@@ -6,20 +6,29 @@ using UnityEngine.EventSystems;
 
 public class UI_ElementButton : UI_ElementBasys
 {
+    private void OnEnable()
+    {
+        if (useUIConfig)
+        {
+            //elementConfig = Resources.Load("Config/UIConfig") as UIConfigList;
+
+            imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetTextElementValue(elementConfig.configList[UIConfigIndex].font, elementConfig.configList[UIConfigIndex].colorText);
+            NameElement = nameElement;
+        }
+    }
 
     override public void CrossfadeEffect()
     {
-        //Debug.Log("CrossfadeEffect " + name);
-
         if (time <= 1)
         {
             if (fadeDown == true)
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
+                imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, Color.Lerp(elementConfig.configList[UIConfigIndex].colorNormal, elementConfig.configList[UIConfigIndex].colorHighlighted, time));
             }
             else
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
+                imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, Color.Lerp(elementConfig.configList[UIConfigIndex].colorHighlighted, elementConfig.configList[UIConfigIndex].colorNormal, time));
             }
 
             time += fadeSpeed * Time.deltaTime;
@@ -29,14 +38,6 @@ public class UI_ElementButton : UI_ElementBasys
             time = 0;
             fadeDown = !fadeDown;
         }
-    }
 
-    override public void OnPointerExit(PointerEventData eventData)
-    {
-        //Debug.Log("OnPointerExit");
-        EventSystem.current.SetSelectedGameObject(null);
-        StopAllCoroutines();
-        image.color = UI_Controller.Singleton.colorArray[0];
     }
-
 }

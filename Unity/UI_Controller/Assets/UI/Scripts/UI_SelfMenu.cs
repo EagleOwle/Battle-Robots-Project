@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class UI_SelfMenu : MonoBehaviour
 {
-    public UI_MenuChanger menuChanger;
+    [Header("Previouse menu")]
+    [SerializeField] UI_MenuChanger menuChanger;
 
-    public int GoBackIndex;
+    [SerializeField]
+    int GoBackIndex;
 
     private void OnEnable()
     {

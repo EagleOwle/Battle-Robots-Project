@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class LevelConfigList: ScriptableObject
 {
-    public List<LevelConfig> itemList;
+    public List<LevelConfig> configList;
 }

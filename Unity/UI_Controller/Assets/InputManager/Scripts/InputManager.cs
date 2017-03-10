@@ -34,7 +34,6 @@ public enum SpetialKey
 
 public delegate void KeyPress(GameKey inputKey);
 
-
 public class InputManager : MonoBehaviour
 {
     private static InputManager _singleton;
@@ -52,7 +51,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    [Header("Разрешённые кнопки клавиатуры")]
+    [Header("Keyboard key for rebind")]
     public KeyCode[] keyboardKeyArray = new KeyCode[] 
     {
         KeyCode.Q,
@@ -99,8 +98,8 @@ public class InputManager : MonoBehaviour
         KeyCode.None,
     };
 
-    [Header("Классы отвечающие за каждую кнопку")]
-    [Tooltip("Сюда нужно добавить все классы GameInputKey")]
+    [Header("Control key class")]
+    [Tooltip("This add class GameInputKey")]
     public GameInputKey[] gameInputKey;
 
     public KeyPress Delegate_KeyPress;
@@ -111,15 +110,15 @@ public class InputManager : MonoBehaviour
         {
             if (gameInputKey[i].changedKey == true)
             {
-                gameInputKey[i].SetAlarmColor(UI_Controller.Singleton.colorArray[1]);
+                gameInputKey[i].alarmObj.SetActive(false);
 
                 foreach (GameInputKey keyBindings in gameInputKey)
                 {
                     if (keyBindings != gameInputKey[i])
                     {
-                        if (keyBindings.keyKode == gameInputKey[i].keyKode)
+                        if (keyBindings.keyKode == gameInputKey[i].keyKode || gameInputKey[i].keyKode == KeyCode.None)
                         {
-                            gameInputKey[i].SetAlarmColor(UI_Controller.Singleton.colorArray[5]);
+                            gameInputKey[i].alarmObj.SetActive(true);
                         }
                     }
                 }
@@ -129,29 +128,33 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (GameInputKey inputKey in gameInputKey)
+        if (Delegate_KeyPress != null)
         {
-            if (inputKey.keyStatus == KeyStatus.On)
+            foreach (GameInputKey inputKey in gameInputKey)
             {
-                if (Input.GetKey(inputKey.keyKode) == true)
+                if (inputKey.keyStatus == KeyStatus.On)
                 {
-                    Delegate_KeyPress(inputKey.gameKey);
+                    if (Input.GetKey(inputKey.keyKode) == true)
+                    {
+                        Delegate_KeyPress(inputKey.gameKey);
+                    }
                 }
-            }
 
-            if (inputKey.keyStatus == KeyStatus.Down)
-            {
-                if (Input.GetKeyDown(inputKey.keyKode) == true)
+                if (inputKey.keyStatus == KeyStatus.Down)
                 {
-                    Delegate_KeyPress(inputKey.gameKey);
+                    if (Input.GetKeyDown(inputKey.keyKode) == true)
+                    {
+                        Delegate_KeyPress(inputKey.gameKey);
+                    }
                 }
-            }
 
-            if (inputKey.keyStatus == KeyStatus.Up)
-            {
-                if (Input.GetKeyUp(inputKey.keyKode) == true)
+                if (inputKey.keyStatus == KeyStatus.Up)
                 {
-                    Delegate_KeyPress(inputKey.gameKey);
+                    if (Input.GetKeyUp(inputKey.keyKode) == true)
+                    {
+
+                        Delegate_KeyPress(inputKey.gameKey);
+                    }
                 }
             }
         }

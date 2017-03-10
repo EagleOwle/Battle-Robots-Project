@@ -14,9 +14,9 @@ public class GameInputKey : MonoBehaviour
     public KeyCode keyKode = KeyCode.None;
     [Header("Компонент GameObject, имя текущей кнопки")]
     public GameObject nameCurrentKey;
-    [Header("Компонент Text, имя, что выполняет данная кнопка")]
-    public Text targetKeyText;
-    public Image AlarmImage;
+    //[Header("Компонент Text, имя, что выполняет данная кнопка")]
+    //public Text targetKeyText;
+    public GameObject alarmObj;
     public bool changedKey = true;
 
     private void OnEnable()
@@ -25,7 +25,8 @@ public class GameInputKey : MonoBehaviour
 
         if (changedKey == true)
         {
-            targetKeyText.text = gameKey.ToString();
+            GetComponent<UI_ElementPanel>().NameElement = gameKey.ToString();
+            //targetKeyText.text = gameKey.ToString();
             SetNewKey(keyKode);
         }
     }
@@ -40,13 +41,8 @@ public class GameInputKey : MonoBehaviour
     public void SetNewKey(KeyCode newKey)
     {
         keyKode = newKey;
-        nameCurrentKey.GetComponent<UI_ElementButton>().SetNewMessage(newKey.ToString());
-        SetAlarmColor(UI_Controller.Singleton.colorArray[0]);
+        nameCurrentKey.GetComponent<UI_ElementButton>().NameElement = newKey.ToString();
+        alarmObj.SetActive(true);
         InputManager.Singleton.CheckUsedKey();
-    }
-
-    public void SetAlarmColor(Color newColor)
-    {
-        AlarmImage.color = newColor;
     }
 }

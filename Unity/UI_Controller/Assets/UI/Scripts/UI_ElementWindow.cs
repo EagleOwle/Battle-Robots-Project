@@ -6,32 +6,21 @@ using UnityEngine.EventSystems;
 
 public class UI_ElementWindow : UI_ElementBasys
 {
+    private void OnEnable()
+    {
+        if (useUIConfig)
+        {
+            //elementConfig = Resources.Load("Config/UIConfig") as UIConfigList;
+            imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].windowSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetTextElementValue(elementConfig.configList[UIConfigIndex].font, elementConfig.configList[UIConfigIndex].colorText);
+            NameElement = nameElement;
+        }
+    }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log("OnPointerEnter");
-        
-    }
-
-    public override void OnPointerExit(PointerEventData eventData)
-    {
-        //Debug.Log("OnPointerExit");
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        //Debug.Log("OnPointerUp");
-    }
-
-    public override void OnSelect(BaseEventData eventData)
-    {
-
-        //Debug.Log("OnSelect");
-    }
-
-    public override void OnSubmit(BaseEventData eventData)
-    {
-
-        //Debug.Log("OnSubmit");
+        //Debug.Log("OnPointerEnter " + NameElement);
+       
     }
 
 }

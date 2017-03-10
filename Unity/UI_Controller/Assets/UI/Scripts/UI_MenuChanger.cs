@@ -8,9 +8,14 @@ public class UI_MenuChanger : MonoBehaviour
     [Tooltip ("Set element menu")]
     public Transform[] menuArray;
 
-    [Header("Eneble menu")]
+    [Header("First enable menu")]
     [Tooltip("Enable Menu by index if call OnEnable()")]
     public int menuIndex = 0;
+
+    private void OnEnable()
+    {
+        ChangeMenu(menuIndex);
+    }
 
     public void ChangeMenu(int n = 0)
     {
@@ -37,11 +42,6 @@ public class UI_MenuChanger : MonoBehaviour
     public void KeyCancel(int index = 0)
     {
         ChangeMenu(index);
-    }
-
-    private void OnEnable()
-    {
-        ChangeMenu(menuIndex);
     }
 
 }

@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UiSoundEffect
-{
-    Enter,
-    Up,
-    None,
-}
-
 public class UI_Controller : MonoBehaviour
 {
     private static UI_Controller _singleton;
@@ -26,22 +19,7 @@ public class UI_Controller : MonoBehaviour
         }
     }
 
-    [Header("Color menu")]
-    [Tooltip("Array 0=normal, 1=highlighted, 2=pressed, 3=disabled, 4=alarm, 5=text")]
-    public Color[] colorArray;
-
-    [Header("Sound menu")]
-    public AudioClip[] ui_sound;
-
-    public void ShowDebugMessage(string message)
-    {
-        UI_DebugMessage.Singleton.ShowNewMessage(message);
-    }
-
-    public void PlaySound(UiSoundEffect clip)
-    {
-        GetComponent<AudioSource>().PlayOneShot(ui_sound[(int)clip]);
-    }
+    public AudioSource audioSource;
 
     public void QuitApplication()
     {

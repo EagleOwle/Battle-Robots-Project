@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UI_ElementDropdown : UI_ElementBasys
 {
@@ -19,24 +20,40 @@ public class UI_ElementDropdown : UI_ElementBasys
     public Text textItemLabel;
     public Text textLabel;
 
-
-
-
-
     private void OnEnable()
     {
-        if (image != null)
+        if (useUIConfig)
         {
-            image.color = UI_Controller.Singleton.colorArray[0];
-        }
+            //elementConfig = Resources.Load("Config/UIConfig") as UIConfigList;
 
-        SetNewMessage(message);
-        imageViewport.color = UI_Controller.Singleton.colorArray[0];
-        imageItemCheckmark.color = UI_Controller.Singleton.colorArray[0];
-        imageTemplate.color = UI_Controller.Singleton.colorArray[0];
-        textItemLabel.color = UI_Controller.Singleton.colorArray[5];
-        textLabel.color = UI_Controller.Singleton.colorArray[5];
-        imageDropdown.color = UI_Controller.Singleton.colorArray[0];
-        imageScrollbarHandle.color = UI_Controller.Singleton.colorArray[0];
+            imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].windowSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetTextElementValue(elementConfig.configList[UIConfigIndex].font, elementConfig.configList[UIConfigIndex].colorText);
+
+            imageViewport.color = elementConfig.configList[UIConfigIndex].colorNormal;
+            imageItemCheckmark.color = elementConfig.configList[UIConfigIndex].colorNormal;
+            imageTemplate.color = elementConfig.configList[UIConfigIndex].colorNormal;
+
+            textItemLabel.color = elementConfig.configList[UIConfigIndex].colorText;
+            textItemLabel.font = elementConfig.configList[UIConfigIndex].font;
+            textLabel.color = elementConfig.configList[UIConfigIndex].colorText;
+            textLabel.font = elementConfig.configList[UIConfigIndex].font;
+
+            imageDropdown.color = elementConfig.configList[UIConfigIndex].colorNormal;
+            imageScrollbarHandle.color = elementConfig.configList[UIConfigIndex].colorNormal;
+        }
+    }
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        /*
+        Debug.Log("OnPointerEnter " + NameElement + " " + gameObject.name);
+        EventSystem.current.SetSelectedGameObject(gameObject);
+
+        if (useUIConfig == true)
+        {
+            PlaySound(UiSoundEffect.Enter);
+            SelectEffect();
+        }
+        */
     }
 }

@@ -10,11 +10,11 @@ public class UI_AudioConfig : MonoBehaviour
 
     private void OnEnable()
     {
-        AudioValumeSlider.value = GetComponentInParent<AudioSource>().volume * 100;
+        AudioValumeSlider.value = UI_Controller.Singleton.audioSource.volume * 100;
     }
 
     public void SliderValueChange()
     {
-        GetComponentInParent<AudioSource>().volume = AudioValumeSlider.value * 0.01f;
+        UI_Controller.Singleton.audioSource.volume = AudioValumeSlider.value * 0.01f;
     }
 }

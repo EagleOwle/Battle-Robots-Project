@@ -8,7 +8,12 @@ public class UI_ChangeLevelManager : MonoBehaviour
     public LevelConfigList levelConfigList;
 
     [SerializeField]
-    UI_ElementWindow elementWindow;
+    UIConfigList elementConfig;
+
+    public bool useUIConfig = true;
+
+    [SerializeField]
+    UI_ElementPanel nameLevel;
 
     [SerializeField]
     UI_LoadScene loadScene;
@@ -27,6 +32,7 @@ public class UI_ChangeLevelManager : MonoBehaviour
 
     private void OnEnable()
     {
+        elementConfig = Resources.Load("Config/UIConfig") as UIConfigList;
         SetDropdownMenu();
     }
 
@@ -34,14 +40,21 @@ public class UI_ChangeLevelManager : MonoBehaviour
     {
         dropdown.options = new System.Collections.Generic.List<Dropdown.OptionData>();
 
-        for (int i = 0; i < levelConfigList.itemList.Count; i++)
+        for (int i = 0; i < levelConfigList.configList.Count; i++)
         {
             Dropdown.OptionData option = new Dropdown.OptionData();
-            option.text = levelConfigList.itemList[i].levelName;
+            option.text = levelConfigList.configList[i].levelName;
             dropdown.options.Add(option);
         }
 
         dropdownLabelText.text = dropdown.options[0].text;
+
+        if (useUIConfig == true)
+        {
+            dropdownLabelText.color = elementConfig.configList[0].colorNormal;
+            dropdownLabelText.font = elementConfig.configList[0].font;
+        }
+
         dropdown.onValueChanged.AddListener(delegate { ApplyChangeLevel(); });
 
         ApplyChangeLevel();
@@ -49,9 +62,16 @@ public class UI_ChangeLevelManager : MonoBehaviour
 
     private void ApplyChangeLevel()
     {
-        prewievLevelImage.sprite = levelConfigList.itemList[dropdown.value].previewSprite;
-        elementWindow.SetNewMessage( levelConfigList.itemList[dropdown.value].levelName);
-        aboutLevelText.text = levelConfigList.itemList[dropdown.value].aboutLevel;
+        prewievLevelImage.sprite = levelConfigList.configList[dropdown.value].previewSprite;
+        nameLevel.NameElement = levelConfigList.configList[dropdown.value].levelName;
+        aboutLevelText.text = levelConfigList.configList[dropdown.value].aboutLevel;
+
+        if (useUIConfig == true)
+        {
+            aboutLevelText.color = elementConfig.configList[0].colorText;
+            aboutLevelText.font = elementConfig.configList[0].font;
+        }
+
         loadScene.nextLevel = dropdown.value + 1;
     }
 }

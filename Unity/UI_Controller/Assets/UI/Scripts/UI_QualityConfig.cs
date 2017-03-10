@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class UI_QualityConfig : MonoBehaviour
 {
-    public Slider slider;
+    [SerializeField]
+    Slider slider;
 
-    public GameObject waitPanel;
+    [SerializeField]
+    GameObject waitPanel;
 
     private void OnEnable()
     {

@@ -7,22 +7,44 @@ using UnityEngine.EventSystems;
 public class UI_ElementSlider : UI_ElementBasys
 {
     [Header("Компонент Image поля")]
-    public Image imageFill;
+    [SerializeField] Image imageFill;
 
     [Header("Компонент Image поля")]
-    public Image imageHandle;
+    [SerializeField]
+    Image imageHandle;
 
     [Header("Компонент Text для значения слайдера")]
-    public Text valueText;
+    [SerializeField]
+    Text valueText;
 
-    public bool showValue;
+    [SerializeField]
+    bool showValue;
+
+    [SerializeField]
+    Slider slider;
 
     private void OnEnable()
     {
-        nameWindowText.text = message;
-        image.color = UI_Controller.Singleton.colorArray[0];
-        imageFill.color = UI_Controller.Singleton.colorArray[0];
-        imageHandle.color = UI_Controller.Singleton.colorArray[0];
+        if (useUIConfig)
+        {
+            //elementConfig = Resources.Load("Config/UIConfig") as UIConfigList;
+
+            imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+            imageHandle = SetImageElementValue(imageHandle, elementConfig.configList[UIConfigIndex].panelSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetColor(imageFill, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetColor(imageHandle, elementConfig.configList[UIConfigIndex].colorNormal);
+            SetColor(imageBackground, elementConfig.configList[UIConfigIndex].colorNormal);
+
+            if (showValue)
+            {
+                valueText.color = elementConfig.configList[UIConfigIndex].colorText;
+                valueText.font = elementConfig.configList[UIConfigIndex].font;
+            }
+
+            NameElement = nameElement;
+            nameElementText.color = elementConfig.configList[UIConfigIndex].colorText;
+            nameElementText.font = elementConfig.configList[UIConfigIndex].font;
+        }
 
         if (showValue == true)
         {
@@ -30,9 +52,9 @@ public class UI_ElementSlider : UI_ElementBasys
         }
     }
 
-    public void SetValueChangeText()
+    private void SetValueChangeText()
     {
-        valueText.text = GetComponent<Slider>().value.ToString("f0");
+        valueText.text = slider.value.ToString("f0");
     }
 
     override public void CrossfadeEffect()
@@ -43,15 +65,15 @@ public class UI_ElementSlider : UI_ElementBasys
         {
             if (fadeDown == true)
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
-                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
-                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[0], UI_Controller.Singleton.colorArray[1], time);
+                imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, Color.Lerp(elementConfig.configList[UIConfigIndex].colorNormal, elementConfig.configList[UIConfigIndex].colorHighlighted, time));
+                imageFill.color = Color.Lerp(elementConfig.configList[UIConfigIndex].colorNormal, elementConfig.configList[UIConfigIndex].colorHighlighted, time);
+                imageHandle.color = Color.Lerp(elementConfig.configList[UIConfigIndex].colorNormal, elementConfig.configList[UIConfigIndex].colorHighlighted, time);
             }
             else
             {
-                image.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
-                imageFill.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
-                imageHandle.color = Color.Lerp(UI_Controller.Singleton.colorArray[1], UI_Controller.Singleton.colorArray[0], time);
+                imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, Color.Lerp(elementConfig.configList[UIConfigIndex].colorHighlighted, elementConfig.configList[UIConfigIndex].colorNormal, time));
+                imageFill.color = Color.Lerp(elementConfig.configList[UIConfigIndex].colorHighlighted, elementConfig.configList[UIConfigIndex].colorNormal, time);
+                imageHandle.color = Color.Lerp(elementConfig.configList[UIConfigIndex].colorHighlighted, elementConfig.configList[UIConfigIndex].colorNormal, time);
             }
 
             time += fadeSpeed * Time.deltaTime;
@@ -68,6 +90,16 @@ public class UI_ElementSlider : UI_ElementBasys
         //Debug.Log("OnPointerExit");
         EventSystem.current.SetSelectedGameObject(null);
         StopAllCoroutines();
-        image.color = UI_Controller.Singleton.colorArray[0];
+        imageBackground = SetImageElementValue(imageBackground, elementConfig.configList[UIConfigIndex].buttonSprite, elementConfig.configList[UIConfigIndex].colorNormal);
+    }
+
+    public void SliderValueChenge()
+    {
+        SetValueChangeText();
+
+        if (useUIConfig)
+        {
+            PlaySound(UiSoundEffect.Slider);
+        }
     }
 }
