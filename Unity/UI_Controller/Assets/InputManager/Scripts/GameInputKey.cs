@@ -14,8 +14,6 @@ public class GameInputKey : MonoBehaviour
     public KeyCode keyKode = KeyCode.None;
     [Header("Компонент GameObject, имя текущей кнопки")]
     public GameObject nameCurrentKey;
-    //[Header("Компонент Text, имя, что выполняет данная кнопка")]
-    //public Text targetKeyText;
     public GameObject alarmObj;
     public bool changedKey = true;
 
@@ -25,8 +23,7 @@ public class GameInputKey : MonoBehaviour
 
         if (changedKey == true)
         {
-            GetComponent<UI_ElementPanel>().NameElement = gameKey.ToString();
-            //targetKeyText.text = gameKey.ToString();
+            GetComponent<UI_ElementBasys>().NameElement = gameKey.ToString();
             SetNewKey(keyKode);
         }
     }

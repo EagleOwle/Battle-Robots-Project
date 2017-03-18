@@ -23,6 +23,8 @@ public enum KeyStatus
     On,
     Up,
     Down,
+    Axis0Positiv,
+    Axis0Negativ,
 }
 
 public enum SpetialKey
@@ -103,6 +105,7 @@ public class InputManager : MonoBehaviour
     public GameInputKey[] gameInputKey;
 
     public KeyPress Delegate_KeyPress;
+    public GameInputAxis GameInputAxis0 = new GameInputAxis();
 
     public void CheckUsedKey()
     {
@@ -156,7 +159,34 @@ public class InputManager : MonoBehaviour
                         Delegate_KeyPress(inputKey.gameKey);
                     }
                 }
+
+                if (inputKey.keyStatus == KeyStatus.Axis0Positiv)
+                {
+                    if (Input.GetKey(inputKey.keyKode) == true)
+                    {
+                        GameInputAxis0.AxisUp();
+                    }
+
+                    if (Input.GetKeyUp(inputKey.keyKode) == true)
+                    {
+                        GameInputAxis0.StartCoroutine("AxisClear");
+                    }
+                }
+
+                if (inputKey.keyStatus == KeyStatus.Axis0Negativ)
+                {
+                    if (Input.GetKey(inputKey.keyKode) == true)
+                    {
+                        GameInputAxis0.AxisDown();
+                    }
+
+                    if (Input.GetKeyUp(inputKey.keyKode) == true)
+                    {
+                        GameInputAxis0.StartCoroutine("AxisClear");
+                    }
+                }
             }
         }
     }
+
 }
